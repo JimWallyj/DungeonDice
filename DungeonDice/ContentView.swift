@@ -9,67 +9,43 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var message = "Roll a die!"
+    private let diceTypes = [4, 6, 8, 10, 12, 20, 100]
     var body: some View {
         VStack {
             Text("Dungeon Dice!")
-            
                 .font(.largeTitle)
                 .fontWeight(.black)
                 .foregroundColor(.red)
+            
             Spacer()
            
             Text(message)
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
+            
             Spacer()
             
-            VStack{
-                HStack {
-                    Button("4-sided"){
-                        message = rollDie(sides: 4)
-                    }
-                    Spacer()
-                    Button("6-sided"){
-                        message = rollDie(sides: 6)
-                    }
-                    Spacer()
-                    Button("8-sided"){
-                        message = rollDie(sides: 8)
-                    }
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 110))]){
+                ForEach(diceTypes, id: \.self) { diceType in Button("\(diceType)-sided"){
+                    rollDie(sides: diceType)
                 }
-                
-                HStack {
-                    Button("10-sided"){
-                        message = rollDie(sides: 10)
-                    }
-                    Spacer()
-                    Button("12-sided"){
-                        message = rollDie(sides: 12)
-                    }
-                    Spacer()
-                    Button("20-sided"){
-                        message = rollDie(sides: 20)
-                    }
+                .font(.title2)
+                .lineLimit(1)
+                .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: false)
+                .buttonStyle(.borderedProminent)
+                .foregroundStyle(.white)
+                .tint(.red)
                 }
-                
-                Button("100-sided"){
-                    message = rollDie(sides: 100)
-                }
-                
-            }// vStack
-            .buttonStyle(.borderedProminent)
-            .foregroundStyle(.white)
-            .tint(.red)
-            .font(.title2)
+            }
         }
         .padding()
     }
     
-    func rollDie(sides: Int) -> String{
-        return "You rolled \(Int.random(in: 1...sides)) on a \(sides) sided die."
+    func rollDie(sides: Int) {
+        //return "You rolled \(Int.random(in: 1...sides)) on a \(sides) sided die."
         // Instructor solution =
-        // let result = Int.random(in: 1...sides)
-        // message = "You rolled a \(result) on a \(sides)-sided die."
+         let result = Int.random(in: 1...sides)
+         message = "You rolled a \(result) on a \(sides)-sided die."
     }
     
 }
